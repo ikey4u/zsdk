@@ -8,18 +8,26 @@ The macOS, iOS and Windows SDKs, laid out to cross-compile from Linux. There's o
 | `ios/27.0/` | iPhoneOS and iPhoneSimulator 27.0 SDKs (Xcode 27.0) |
 | `windows/10.0.28000/` | Windows SDK 10.0.28000.0, MSVC 14.50.35717, DIA SDK |
 
-## Tasks
+## Use
+
+Clone the repository. The SDKs are already laid out, so there's nothing to run. To fetch only the versions you need:
+
+```sh
+git clone --filter=blob:none --sparse https://github.com/ikey4u/zsdk.git
+cd zsdk && git sparse-checkout add macos/27.0 windows/10.0.28000
+```
+
+`mise run check [platform/version]` checks that an SDK is complete, offline. `scripts/windows.py json windows/<version>` prints the toolchain's `win_toolchain.json`. `scripts/windows.py case-links windows/<version> <src>...` links the header and library names a source tree uses in another case.
+
+## Add a version
+
+Only needed to add a new SDK version to this repository:
 
 | Command | Does |
 |---|---|
-| `mise run check [platform/version]` | Checks that each SDK is complete, offline |
-| `mise run create:windows` | Downloads the pinned MSVC and Windows SDK packages and lays them out in `windows/<version>/` |
-| `mise run pack:macos` | On a Mac: packs the current Xcode's macOS SDK into `macos/<version>/` |
-| `mise run create:macos <version>` | Lays out `macos/<version>/xcode` from its `sdk.tar.xz` |
-| `mise run pack:ios` | On a Mac: packs the current Xcode's iPhone SDKs into `ios/<version>/in/` |
-| `mise run create:ios <version>` | Lays out `ios/<version>/xcode` from `in/` |
-
-`scripts/windows.py` pins each Windows package by version and SHA-256. `scripts/windows.py json windows/<version>` prints the toolchain's `win_toolchain.json`, and `scripts/windows.py case-links windows/<version> <src>...` links the header and library names a source tree uses in another case.
+| `mise run add:macos` | On a Mac: adds the current Xcode's macOS SDK as `macos/<version>/` |
+| `mise run add:ios` | On a Mac: adds the current Xcode's iPhone SDKs as `ios/<version>/` |
+| `mise run add:windows` | Downloads the MSVC and Windows SDK packages pinned in `scripts/windows.py`, by version and SHA-256, and lays them out as `windows/<version>/` |
 
 ## Licence
 

@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """Lay out MSVC and the Windows SDK in windows/<version>/, on Linux.
 
-    windows.py create <dir>                  download what is missing and lay it out
+    windows.py add <dir>                     download what is missing and lay it out
     windows.py verify <dir>                  check what is laid out is what is pinned (no network)
     windows.py json <dir>                    print the toolchain's description (win_toolchain.json)
     windows.py case-links <dir> [<src>...]   link names spelled in another case (see add_case_links)
 
 Every package is pinned below, by version and SHA-256: the toolchain is the
 same whenever and wherever it is laid out, and never what Microsoft's channel
-happens to offer that day. Running create accepts Microsoft's licence terms
+happens to offer that day. Running add accepts Microsoft's licence terms
 for Visual Studio and the Windows SDK.
 
 The tree is laid out as depot_tools' packaged Windows toolchain has it
@@ -516,7 +516,7 @@ def main():
         if verify(cache):
             raise SystemExit(f"no pinned toolchain in {cache}; run: windows.py verify {cache}")
         sys.stdout.write(toolchain_json(cache))
-    elif command == "create":
+    elif command == "add":
         downloads = cache / "downloads"
         downloads.mkdir(parents=True, exist_ok=True)
         if not (cache / "VERSIONS").exists():
