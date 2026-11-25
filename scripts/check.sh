@@ -13,12 +13,12 @@ ok() { echo "  ok   $*"; }
 check_macos() {
     local sdk="$1/xcode/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
     [[ -f "$sdk/SDKSettings.json" ]] && ok "MacOSX.sdk" || { fail "no $sdk"; return; }
-    local tbd="$sdk/usr/lib/libSystem.B.tbd"
+    local version
+    version="$(python3 -I -c 'import json, sys; print(json.load(open(sys.argv[1]))["Version"])' "$sdk/SDKSettings.json")"
+    [[ "$version" == "${1#*/}" ]] && ok "version $version" || fail "MacOSX.sdk is $version"
     for arch in arm64 x86_64; do
-        grep -q "$arch-macos" "$tbd" && ok "libSystem has $arch" || fail "libSystem has no $arch"
+        grep -q "$arch-macos" "$sdk/usr/lib/libSystem.B.tbd" && ok "libSystem has $arch" || fail "libSystem has no $arch"
     done
-    ls "$1"/runtime/lib/clang/*/lib/darwin/libclang_rt.osx.a > /dev/null 2>&1 \
-        && ok "compiler runtime" || fail "no libclang_rt.osx.a in $1/runtime"
 }
 
 check_ios() {
@@ -27,20 +27,18 @@ check_ios() {
         [[ -f "$platforms/$name.platform/Developer/SDKs/$name.sdk/SDKSettings.json" ]] \
             && ok "$name.sdk" || fail "no $name.sdk"
     done
+    grep -qx "sdk_version ${1#*/}" "$1/xcode/versions" 2> /dev/null \
+        && ok "versions" || fail "no xcode/versions for ${1#*/}"
 }
 
 check_windows() {
-    local json="$1/win_toolchain.json"
-    [[ -f "$json" ]] || { fail "no $json"; return; }
-    python3 -I - "$json" << 'EOF' || failed=1
-import json, os, sys
-d = json.load(open(sys.argv[1]))
-for path in [d["path"], d["win_sdk"], d["wdk"], *d["runtime_dirs"]]:
-    print(f"  {'ok  ' if os.path.isdir(path) else 'FAIL'} {path}")
-    if not os.path.isdir(path):
-        sys.exit(1)
-EOF
-    [[ -x "$1/rc" ]] && ok "rc" || fail "no $1/rc"
+    if python3 -I "$root/scripts/windows.py" verify "$1"; then
+        ok "the pinned MSVC and Windows SDK"
+    else
+        fail "not the pinned toolchain"
+    fi
+    local sdk="${1#*/}"
+    [[ -d "$1/vs_files/Windows Kits/10/Include/$sdk.0" ]] && ok "Windows SDK $sdk" || fail "no Windows SDK $sdk"
 }
 
 targets=("$@")
@@ -48,14 +46,13 @@ if (( ${#targets[@]} == 0 )); then
     for dir in macos/*/ ios/*/ windows/*/; do [[ -d "$dir" ]] && targets+=("${dir%/}"); done
 fi
 for target in "${targets[@]}"; do
-    platform="${target%%/*}"
-    [[ -d "$target" ]] || { echo "$target"; fail "no such directory"; continue; }
     echo "$target"
-    case "$platform" in
+    [[ -d "$target" ]] || { fail "no such directory"; continue; }
+    case "${target%%/*}" in
         macos) check_macos "$target" ;;
         ios) check_ios "$target" ;;
         windows) check_windows "$target" ;;
-        *) fail "unknown platform $platform" ;;
+        *) fail "unknown platform" ;;
     esac
 done
 exit "$failed"

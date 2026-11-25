@@ -4,15 +4,23 @@ usage = 'arg "[target]" var=#true help="<platform>/<version>, e.g. macos/27.0; d
 run = 'scripts/check.sh ${usage_target:-}'
 
 [tasks."create:windows"]
-description = "Lay out the Windows SDK in windows/<version>/ (needs ZEBKIT_ROOT)"
-usage = 'arg "[version]" help="default: the version zebkit pins"'
-run = 'scripts/create.sh windows ${usage_version:-}'
+description = "Download and lay out the pinned MSVC and Windows SDK in windows/<version>/"
+run = 'python3 -I scripts/windows.py create "windows/$(sed -n "s/^SDK_VERSION = \"\(.*\)\.[0-9]*\"$/\1/p" scripts/windows.py)"'
 
 [tasks."create:macos"]
-description = "Lay out macos/<version>/ from its sdk.tar.xz and version.plist (needs ZEBKIT_ROOT)"
+description = "Lay out macos/<version>/xcode from its sdk.tar.xz and version.plist"
 usage = 'arg "<version>"'
-run = 'scripts/create.sh macos "${usage_version}"'
+run = 'scripts/macos.sh create "${usage_version}"'
+
+[tasks."create:ios"]
+description = "Lay out ios/<version>/xcode from ios/<version>/in/"
+usage = 'arg "<version>"'
+run = 'scripts/ios.sh create "${usage_version}"'
 
 [tasks."pack:macos"]
-description = "On a Mac: pack the current Xcode's SDK into macos/<version>/"
-run = "scripts/create.sh macos"
+description = "On a Mac: pack the current Xcode's macOS SDK into macos/<version>/"
+run = "scripts/macos.sh pack"
+
+[tasks."pack:ios"]
+description = "On a Mac: pack the current Xcode's iPhone SDKs into ios/<version>/in/"
+run = "scripts/ios.sh pack"
