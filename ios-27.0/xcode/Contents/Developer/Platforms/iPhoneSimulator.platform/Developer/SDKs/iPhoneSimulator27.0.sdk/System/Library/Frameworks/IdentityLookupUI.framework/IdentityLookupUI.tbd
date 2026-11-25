@@ -1,9 +1,0 @@
---- !tapi-tbd
-tbd-version:     4
-targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
-install-name:    '/System/Library/Frameworks/IdentityLookupUI.framework/IdentityLookupUI'
-exports:
-  - targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
-    objc-classes:    [ ILClassificationUIExtensionContext, ILClassificationUIExtensionHostContext, 
-                       ILClassificationUIExtensionHostViewController, ILClassificationUIExtensionViewController ]
-...

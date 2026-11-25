@@ -1,0 +1,9 @@
+--- !tapi-tbd
+tbd-version:     4
+targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
+install-name:    '/usr/lib/swift/libswiftFileProvider.dylib'
+current-version: 4838.0.125
+reexported-libraries:
+  - targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
+    libraries:       [ '/System/Library/Frameworks/FileProvider.framework/FileProvider' ]
+...

@@ -1,0 +1,9 @@
+--- !tapi-tbd
+tbd-version:     4
+targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
+install-name:    '/usr/lib/swift/libswiftCoreData.dylib'
+current-version: 25
+reexported-libraries:
+  - targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
+    libraries:       [ '/System/Library/Frameworks/CoreData.framework/CoreData' ]
+...

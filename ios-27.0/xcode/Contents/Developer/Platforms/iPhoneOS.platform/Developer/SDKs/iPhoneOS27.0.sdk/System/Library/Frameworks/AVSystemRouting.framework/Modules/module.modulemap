@@ -1,5 +1,0 @@
-framework module AVSystemRouting {
-	umbrella header "AVSystemRouting.h"
-	export *
-	module * { export * }
-}

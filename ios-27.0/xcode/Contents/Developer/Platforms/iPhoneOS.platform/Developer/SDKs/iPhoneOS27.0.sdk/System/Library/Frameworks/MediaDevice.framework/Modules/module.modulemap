@@ -1,6 +1,0 @@
-framework module MediaDevice {
-	umbrella header "MediaDevice.h"
-	export *
-	
-	module * { export * }
-}

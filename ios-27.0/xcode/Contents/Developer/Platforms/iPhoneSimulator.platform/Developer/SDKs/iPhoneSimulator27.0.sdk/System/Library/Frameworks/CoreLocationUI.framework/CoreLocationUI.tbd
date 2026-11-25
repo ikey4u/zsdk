@@ -1,9 +1,0 @@
---- !tapi-tbd
-tbd-version:     4
-targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
-install-name:    '/System/Library/Frameworks/CoreLocationUI.framework/CoreLocationUI'
-exports:
-  - targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
-    symbols:         [ _CoreLocationUIVersionNumber, _CoreLocationUIVersionString ]
-    objc-classes:    [ CLLocationButton, CLLocationButtonDrawing, CLLocationButtonTag ]
-...

@@ -1,6 +1,0 @@
-framework module AppIntentsTypeSupport {
-  umbrella header "AppIntentsTypeSupport.h"
-  export *
-
-  module * { export * }
-}

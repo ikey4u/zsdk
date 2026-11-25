@@ -1,0 +1,11 @@
+{
+  "path": "/data/zsdk/windows/10.0.28000/vs_files",
+  "version": "2026",
+  "win_sdk": "/data/zsdk/windows/10.0.28000/vs_files/Windows Kits/10",
+  "wdk": "/data/zsdk/windows/10.0.28000/vs_files/wdk",
+  "runtime_dirs": [
+    "/data/zsdk/windows/10.0.28000/vs_files/sys64",
+    "/data/zsdk/windows/10.0.28000/vs_files/sys32",
+    "/data/zsdk/windows/10.0.28000/vs_files/sysarm64"
+  ]
+}

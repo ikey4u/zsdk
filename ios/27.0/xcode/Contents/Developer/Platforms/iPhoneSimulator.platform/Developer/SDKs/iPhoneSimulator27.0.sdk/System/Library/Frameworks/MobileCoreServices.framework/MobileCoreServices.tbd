@@ -1,0 +1,9 @@
+--- !tapi-tbd
+tbd-version:     4
+targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
+install-name:    '/System/Library/Frameworks/MobileCoreServices.framework/MobileCoreServices'
+current-version: 1226
+reexported-libraries:
+  - targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
+    libraries:       [ '/System/Library/Frameworks/CoreServices.framework/CoreServices' ]
+...

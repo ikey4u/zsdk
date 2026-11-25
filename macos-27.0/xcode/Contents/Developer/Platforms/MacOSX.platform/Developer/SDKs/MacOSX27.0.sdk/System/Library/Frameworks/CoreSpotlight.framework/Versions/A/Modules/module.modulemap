@@ -1,5 +1,0 @@
-framework module CoreSpotlight [system] {
-  umbrella header "CoreSpotlight.h"
-  export *
-  module * { export * }
-}

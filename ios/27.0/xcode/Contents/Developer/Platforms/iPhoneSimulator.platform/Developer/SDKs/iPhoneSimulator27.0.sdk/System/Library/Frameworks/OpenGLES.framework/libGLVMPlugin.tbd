@@ -1,0 +1,10 @@
+--- !tapi-tbd
+tbd-version:     4
+targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
+install-name:    '/System/Library/Frameworks/OpenGLES.framework/libGLVMPlugin.dylib'
+exports:
+  - targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
+    symbols:         [ _cvmsPluginElementBuild, _cvmsPluginServiceInitialize, _cvmsPluginServiceTerminate, 
+                       _glpLLVMCGTopLevel, _oglCodeGenServiceGenerateIR, _oglCodeGenServiceInitialize, 
+                       _oglCodeGenServiceTerminate ]
+...

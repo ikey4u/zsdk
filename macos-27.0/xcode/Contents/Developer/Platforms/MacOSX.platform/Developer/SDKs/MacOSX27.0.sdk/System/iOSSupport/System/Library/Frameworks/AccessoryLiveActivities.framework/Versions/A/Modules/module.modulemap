@@ -1,6 +1,0 @@
-framework module AccessoryLiveActivities {
-  umbrella header "AccessoryLiveActivities.h"
-  export *
-
-  module * { export * }
-}

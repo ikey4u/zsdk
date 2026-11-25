@@ -1,7 +1,7 @@
 # Raw installer packages, already unpacked into vs_files/.
-/windows-*/downloads/
+/windows/*/downloads/
 # Build extras that aren't part of the SDKs.
-/windows-*/pgo/
-/windows-*/deps/
-/*/cipd/
-/*/cipd.ensure
+/windows/*/pgo/
+/windows/*/deps/
+/*/*/cipd/
+/*/*/cipd.ensure
