@@ -1,0 +1,138 @@
+{
+  "env": {
+    "VSINSTALLDIR": [
+      [
+        ".\\"
+      ]
+    ],
+    "VCINSTALLDIR": [
+      [
+        "VC\\"
+      ]
+    ],
+    "INCLUDE": [
+      [
+        "Windows Kits",
+        "10",
+        "Include",
+        "10.0.28000.0",
+        "um"
+      ],
+      [
+        "Windows Kits",
+        "10",
+        "Include",
+        "10.0.28000.0",
+        "shared"
+      ],
+      [
+        "Windows Kits",
+        "10",
+        "Include",
+        "10.0.28000.0",
+        "winrt"
+      ],
+      [
+        "Windows Kits",
+        "10",
+        "Include",
+        "10.0.28000.0",
+        "ucrt"
+      ],
+      [
+        "VC",
+        "Tools",
+        "MSVC",
+        "14.50.35717",
+        "include"
+      ],
+      [
+        "VC",
+        "Tools",
+        "MSVC",
+        "14.50.35717",
+        "atlmfc",
+        "include"
+      ]
+    ],
+    "LIBPATH": [
+      [
+        "VC",
+        "Tools",
+        "MSVC",
+        "14.50.35717",
+        "lib",
+        "x86",
+        "store",
+        "references"
+      ],
+      [
+        "Windows Kits",
+        "10",
+        "UnionMetadata",
+        "10.0.28000.0"
+      ]
+    ],
+    "VCToolsInstallDir": [
+      [
+        "VC",
+        "Tools",
+        "MSVC",
+        "14.50.35717/"
+      ]
+    ],
+    "PATH": [
+      [
+        "Windows Kits",
+        "10",
+        "bin",
+        "10.0.28000.0",
+        "x64"
+      ],
+      [
+        "VC",
+        "Tools",
+        "MSVC",
+        "14.50.35717",
+        "bin",
+        "HostX64",
+        "x64"
+      ]
+    ],
+    "LIB": [
+      [
+        "VC",
+        "Tools",
+        "MSVC",
+        "14.50.35717",
+        "lib",
+        "x64"
+      ],
+      [
+        "Windows Kits",
+        "10",
+        "Lib",
+        "10.0.28000.0",
+        "um",
+        "x64"
+      ],
+      [
+        "Windows Kits",
+        "10",
+        "Lib",
+        "10.0.28000.0",
+        "ucrt",
+        "x64"
+      ],
+      [
+        "VC",
+        "Tools",
+        "MSVC",
+        "14.50.35717",
+        "atlmfc",
+        "lib",
+        "x64"
+      ]
+    ]
+  }
+}
