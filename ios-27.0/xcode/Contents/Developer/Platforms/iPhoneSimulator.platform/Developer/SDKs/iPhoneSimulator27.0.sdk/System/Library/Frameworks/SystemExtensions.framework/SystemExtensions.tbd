@@ -1,0 +1,10 @@
+--- !tapi-tbd
+tbd-version:     4
+targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
+install-name:    '/System/Library/Frameworks/SystemExtensions.framework/SystemExtensions'
+exports:
+  - targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
+    symbols:         [ _NSSystemExtensionUsageDescriptionKey, _OSBundleUsageDescriptionKey, 
+                       _OSSystemExtensionErrorDomain, _applicationDisplayNameForExecutable ]
+    objc-classes:    [ OSSystemExtensionProperties, OSSystemExtensionsWorkspace ]
+...

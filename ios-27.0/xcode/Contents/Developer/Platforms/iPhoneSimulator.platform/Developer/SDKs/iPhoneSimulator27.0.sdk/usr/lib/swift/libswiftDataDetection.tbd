@@ -1,0 +1,10 @@
+--- !tapi-tbd
+tbd-version:     4
+targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
+install-name:    '/usr/lib/swift/libswiftDataDetection.dylib'
+current-version: 847.1
+swift-abi-version: 7
+exports:
+  - targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
+    symbols:         [ '__swift_FORCE_LOAD_$_swiftDataDetection' ]
+...

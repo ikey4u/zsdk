@@ -1,0 +1,11 @@
+--- !tapi-tbd
+tbd-version:     4
+targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
+install-name:    '/usr/lib/libDetachedCertificates.dylib'
+current-version: 0
+compatibility-version: 0
+exports:
+  - targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
+    symbols:         [ _kDetachedCertificatesErrorDomain ]
+    objc-classes:    [ DetachedCertificateEntry, DetachedCertificatesFile ]
+...

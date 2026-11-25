@@ -1,0 +1,10 @@
+--- !tapi-tbd
+tbd-version:     4
+targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
+install-name:    '/usr/lib/libAHTRestore.dylib'
+current-version: 10100.41
+exports:
+  - targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
+    symbols:         [ _AHTRestoreCreateDeviceList, _AHTRestoreFailureCleanup, _AHTRestoreUpdateDevice, 
+                       _AHTRestoreUpdateDeviceWithOverrides ]
+...

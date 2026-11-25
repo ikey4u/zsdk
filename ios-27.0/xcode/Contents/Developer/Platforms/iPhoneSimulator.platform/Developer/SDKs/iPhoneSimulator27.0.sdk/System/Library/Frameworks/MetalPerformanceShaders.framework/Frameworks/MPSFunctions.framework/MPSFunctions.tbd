@@ -1,0 +1,12 @@
+--- !tapi-tbd
+tbd-version:     4
+targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
+install-name:    '/System/Library/Frameworks/MetalPerformanceShaders.framework/Frameworks/MPSFunctions.framework/MPSFunctions'
+current-version: 130.0.19
+allowable-clients:
+  - targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
+    clients:         [ MPSImage, MetalPerformanceShaders ]
+exports:
+  - targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
+    objc-classes:    [ MPSFColorConversion, MPSFunction ]
+...

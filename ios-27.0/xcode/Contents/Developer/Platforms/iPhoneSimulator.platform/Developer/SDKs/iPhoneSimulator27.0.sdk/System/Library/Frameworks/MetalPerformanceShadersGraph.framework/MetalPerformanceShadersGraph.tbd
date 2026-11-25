@@ -1,0 +1,39 @@
+--- !tapi-tbd
+tbd-version:     4
+targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
+install-name:    '/System/Library/Frameworks/MetalPerformanceShadersGraph.framework/MetalPerformanceShadersGraph'
+swift-abi-version: 7
+exports:
+  - targets:         [ x86_64-ios-simulator, arm64-ios-simulator ]
+    symbols:         [ _MPSGraphCompilerServiceCreateContext, _MPSGraphCompilerServiceDestroyContext, 
+                       _MPSGraphDeviceTypeANE, _MPSGraphDeviceTypeCPU, _MPSGraphGetAICodeDialectVersion, 
+                       _MPSGraphGetCoreMLDialectVersion, _MPSGraphGetMLIRBytecodeVersion, 
+                       _bufferFromIOSurface, _createChildIOSurface ]
+    objc-classes:    [ MPSGraph, MPSGraphAICodeAdapterPackageToExecutable, MPSGraphAICodeCompilerDelegate, 
+                       MPSGraphAdamOptimizer, MPSGraphAneSessionDescriptor, MPSGraphCompilationDescriptor, 
+                       MPSGraphConvolution2DOpDescriptor, MPSGraphConvolution3DOpDescriptor, 
+                       MPSGraphCoreMLCompilerDelegate, MPSGraphCreateSparseOpDescriptor, 
+                       MPSGraphCropResizeOpDescriptor, MPSGraphDelegateCompilationContext, 
+                       MPSGraphDelegateDebugConfiguration, MPSGraphDelegateMLIRDumpConfiguration, 
+                       MPSGraphDelegatePrecompilationDescriptor, MPSGraphDepthwiseConvolution2DOpDescriptor, 
+                       MPSGraphDepthwiseConvolution3DOpDescriptor, MPSGraphDevice, 
+                       MPSGraphDeviceCompilationOptions, MPSGraphDeviceDescriptor, 
+                       MPSGraphExecutable, MPSGraphExecutableConstantData, MPSGraphExecutableConstantDataRequest, 
+                       MPSGraphExecutableDescriptor, MPSGraphExecutableEntryPoint, 
+                       MPSGraphExecutableEntryPointToSymbolAndFileNameMap, MPSGraphExecutableExecutionDescriptor, 
+                       MPSGraphExecutableReflection, MPSGraphExecutableSerializationDescriptor, 
+                       MPSGraphExecutionDescriptor, MPSGraphFFTDescriptor, MPSGraphGRUDescriptor, 
+                       MPSGraphImToColOpDescriptor, MPSGraphIntermediateIdentifier, 
+                       MPSGraphLSTMDescriptor, MPSGraphList, MPSGraphListData, MPSGraphListType, 
+                       MPSGraphMatrixDecompositionDescriptor, MPSGraphObject, MPSGraphOperation, 
+                       MPSGraphOptimizer, MPSGraphPooling2DOpDescriptor, MPSGraphPooling4DOpDescriptor, 
+                       MPSGraphPruningDescriptor, MPSGraphRandomOpDescriptor, MPSGraphSDPADescriptor, 
+                       MPSGraphShapedType, MPSGraphSingleGateRNNDescriptor, MPSGraphStencilOpDescriptor, 
+                       MPSGraphStochasticGradientDescentOptimizer, MPSGraphTensor, 
+                       MPSGraphTensorData, MPSGraphToolsProfilingEventCollection, 
+                       MPSGraphType, MPSGraphVariableInitializer, MPSGraphVariableOp, 
+                       MPSGraphViewerNodePortSPI, MPSGraphViewerNodePropertyDataSPI, 
+                       MPSGraphViewerNodePropertyEnumCaseSPI, MPSGraphViewerNodePropertyEnumSPI, 
+                       MPSGraphViewerNodePropertyStringSPI, MPSGraphViewerNodeRegionSPI, 
+                       MPSGraphViewerNodeSPI, MPSGraphViewerSPI ]
+...
