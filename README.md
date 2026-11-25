@@ -27,7 +27,9 @@ Only needed to add a new SDK version to this repository:
 |---|---|
 | `mise run add:macos` | On a Mac: adds the current Xcode's macOS SDK as `macos/<version>/` |
 | `mise run add:ios` | On a Mac: adds the current Xcode's iPhone SDKs as `ios/<version>/` |
-| `mise run add:windows` | Downloads the MSVC and Windows SDK packages pinned in `scripts/windows.py`, by version and SHA-256, and lays them out as `windows/<version>/` |
+| `mise run add:windows <version>` | Downloads the MSVC, Windows SDK and debugger packages that `windows/<version>/pins.json` pins, by version and SHA-256, and lays them out there |
+
+For a new Windows version, write `windows/<version>/pins.json` first, starting from an existing one. `<version>` is the SDK's version without its last field, such as `10.0.28000` for `10.0.28000.0`.
 
 ## Licence
 

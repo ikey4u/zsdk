@@ -12,5 +12,6 @@ description = "On a Mac: add the current Xcode's iPhone SDKs as ios/<version>/"
 run = "scripts/ios.sh add"
 
 [tasks."add:windows"]
-description = "Download the pinned MSVC and Windows SDK and lay them out as windows/<version>/"
-run = 'python3 -I scripts/windows.py add "windows/$(sed -n "s/^SDK_VERSION = \"\(.*\)\.[0-9]*\"$/\1/p" scripts/windows.py)"'
+description = "Download what windows/<version>/pins.json pins and lay it out there"
+usage = 'arg "<version>" help="e.g. 10.0.28000; windows/<version>/pins.json says what to download"'
+run = 'python3 -I scripts/windows.py add "windows/${usage_version}"'

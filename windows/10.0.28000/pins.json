@@ -1,0 +1,67 @@
+{
+  "sdk_version": "10.0.28000.0",
+  "vs_year": "2026",
+  "vs_channel": "https://aka.ms/vs/18/stable/channel",
+  "msvc_prefix": "Microsoft.VC.14.50.18.0.",
+  "msvc_dir": "14.50.35717",
+  "notes": "Laid out on 2026-10-31. On 2026-11-11 Visual Studio's channels (stable 18.12, LTSC 18.11) had Tools.HostX64.TargetX64 14.50.35740 and the DIA SDK 14.52.37029 and no longer served the pinned two, so a new layout takes them from downloads/.",
+  "vs_packages": {
+    "Microsoft.VC.14.50.18.0.CRT.Headers.base": {
+      "version": "14.50.35735",
+      "sha256": "654cfc02cdf49da62a5b505abe46717f1523205595c5bc41539d05559bf2335a",
+      "url_base": "https://download.visualstudio.microsoft.com/download/pr/1a817b2a-dbb5-4611-b77a-4bfa03333858/"
+    },
+    "Microsoft.VC.14.50.18.0.CRT.x64.Desktop.base": {
+      "version": "14.50.35735",
+      "sha256": "34482fdf6b6c69e3bf02db87e61d0e712ea318c208ca9d9d5acf339e002a3dc9",
+      "url_base": "https://download.visualstudio.microsoft.com/download/pr/1a817b2a-dbb5-4611-b77a-4bfa03333858/"
+    },
+    "Microsoft.VC.14.50.18.0.CRT.x64.Store.base": {
+      "version": "14.50.35735",
+      "sha256": "308a6a67db2eb840874c54bf0d3a3ea1de0852808c92299af67b1adad0001784",
+      "url_base": "https://download.visualstudio.microsoft.com/download/pr/1a817b2a-dbb5-4611-b77a-4bfa03333858/"
+    },
+    "Microsoft.VC.14.50.18.0.ATL.Headers.base": {
+      "version": "14.50.35717",
+      "sha256": "64e638a9e62e056a14b16cf66c2d7710291a6d408953065e2a8caf45ab995e42",
+      "url_base": "https://download.visualstudio.microsoft.com/download/pr/eef0996f-4334-4b1a-a344-4d13e27ac052/"
+    },
+    "Microsoft.VC.14.50.18.0.ATL.X64.base": {
+      "version": "14.50.35717",
+      "sha256": "6625a6d9749797d140f64460dc9a846dc702d133e790b2eb636485f0fa8021db",
+      "url_base": "https://download.visualstudio.microsoft.com/download/pr/eef0996f-4334-4b1a-a344-4d13e27ac052/"
+    },
+    "Microsoft.VC.14.50.18.0.CRT.Redist.X64.base": {
+      "version": "14.50.35719",
+      "sha256": "a4ab48822362df6e478eb4ed33bf825a07a6faacd6879c1e3d59929cd38b984b",
+      "url_base": "https://download.visualstudio.microsoft.com/download/pr/a424e95b-20f6-4af6-844f-9d9a806080a7/"
+    },
+    "Microsoft.VC.14.50.18.0.Tools.HostX64.TargetX64.base": {
+      "version": "14.50.35739",
+      "sha256": "5151bf213431423046eefdf256f3bd70fe36c5df8d5b4c6bc36fc53b0cadc96c",
+      "url_base": null
+    },
+    "Microsoft.VisualCpp.DIA.SDK": {
+      "version": "14.51.36257",
+      "sha256": "a99bd36306e536b80662c064cc76e0e143d20bc58832fa3e82ec79fecf9cefb7",
+      "url_base": null
+    }
+  },
+  "sdk_packages": [
+    {
+      "name": "microsoft.windows.sdk.cpp",
+      "version": "10.0.28000.2270",
+      "sha256": "0a4887a64d1b17128f9ffd80032f20debabf943f34eea927aac00cc46cb32879"
+    },
+    {
+      "name": "microsoft.windows.sdk.cpp.x64",
+      "version": "10.0.28000.2270",
+      "sha256": "72076d00b16c3882bf9eab0c80e350f33d8bc65e5f29e2f0e9b66a3f2569ccb1"
+    }
+  ],
+  "debuggers": {
+    "name": "microsoft.debugging.platform.dbgeng",
+    "version": "20260319.1511.0",
+    "sha256": "875678516f9ceed4a1c8b9b106d165106fcaa38723ad7c584c47b95b231600de"
+  }
+}

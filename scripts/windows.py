@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """Lay out MSVC and the Windows SDK in windows/<version>/, on Linux.
 
-    windows.py add <dir>                     download what is missing and lay it out
+    windows.py add <dir>                     download what <dir>/pins.json pins and lay it out
     windows.py verify <dir>                  check what is laid out is what is pinned (no network)
     windows.py json <dir>                    print the toolchain's description (win_toolchain.json)
     windows.py case-links <dir> [<src>...]   link names spelled in another case (see add_case_links)
 
-Every package is pinned below, by version and SHA-256: the toolchain is the
+Every package is pinned in <dir>/pins.json, by version and SHA-256: the toolchain is the
 same whenever and wherever it is laid out, and never what Microsoft's channel
 happens to offer that day. Running add accepts Microsoft's licence terms
 for Visual Studio and the Windows SDK.
@@ -20,6 +20,7 @@ The tree is laid out as depot_tools' packaged Windows toolchain has it
     vs_files/Windows Kits/10/            Include, Lib, bin, Debuggers, Redist
     vs_files/Windows Kits/10/bin/SetEnv.{x86,x64}.json
     vs_files/sys64                       the runtime's DLLs
+    pins.json                            what it is laid out from (load_pins)
     VERSIONS, PINS                       the versions, and each package by version and SHA-256
     downloads/                           the packages (not in the repository)
 """
@@ -34,62 +35,35 @@ import sys
 import urllib.request
 import zipfile
 
-# Visual Studio 2026 (its toolset, VC145) and the Windows SDK, with its
-# servicing release, from NuGet, the one place Microsoft publishes that exact release.
-SDK_VERSION = "10.0.28000.0"
-VS_YEAR = "2026"
-# MSVC, pinned: each package of Visual Studio's manifest by its version and the
-# SHA-256 the manifest gives it, and the URL it was served from where that is
-# known. These are what windows/10.0.28000 was laid out from (2026-10-31), read
-# from its downloads/; Visual Studio's channels have since moved on (on
-# 2026-11-11 the stable channel, 18.12, and the LTSC 18.11 one had
-# Tools.HostX64.TargetX64 14.50.35740 and the DIA SDK 14.52.37029, and no
-# folder of theirs served the pinned two any more). A package
-# without a URL is looked up by its SHA-256 in VS_CHANNEL's current manifest;
-# when the manifest no longer has it, the run stops and says so: a new toolset
-# is a decision, made by changing these pins (and MSVC_DIR), never by a
-# download. The C++ library's directory, VC/Tools/MSVC/<MSVC_DIR>, is named
-# after the version the CRT's headers carry.
-VS_CHANNEL = "https://aka.ms/vs/18/stable/channel"
-MSVC_PREFIX = "Microsoft.VC.14.50.18.0."
-MSVC_DIR = "14.50.35717"
-_VS_DOWNLOADS = "https://download.visualstudio.microsoft.com/download/pr/"
-VS_PACKAGES = {
-    MSVC_PREFIX + "CRT.Headers.base": ("14.50.35735",
-        "654cfc02cdf49da62a5b505abe46717f1523205595c5bc41539d05559bf2335a",
-        _VS_DOWNLOADS + "1a817b2a-dbb5-4611-b77a-4bfa03333858/"),
-    MSVC_PREFIX + "CRT.x64.Desktop.base": ("14.50.35735",
-        "34482fdf6b6c69e3bf02db87e61d0e712ea318c208ca9d9d5acf339e002a3dc9",
-        _VS_DOWNLOADS + "1a817b2a-dbb5-4611-b77a-4bfa03333858/"),
-    MSVC_PREFIX + "CRT.x64.Store.base": ("14.50.35735",
-        "308a6a67db2eb840874c54bf0d3a3ea1de0852808c92299af67b1adad0001784",
-        _VS_DOWNLOADS + "1a817b2a-dbb5-4611-b77a-4bfa03333858/"),
-    MSVC_PREFIX + "ATL.Headers.base": ("14.50.35717",
-        "64e638a9e62e056a14b16cf66c2d7710291a6d408953065e2a8caf45ab995e42",
-        _VS_DOWNLOADS + "eef0996f-4334-4b1a-a344-4d13e27ac052/"),
-    MSVC_PREFIX + "ATL.X64.base": ("14.50.35717",
-        "6625a6d9749797d140f64460dc9a846dc702d133e790b2eb636485f0fa8021db",
-        _VS_DOWNLOADS + "eef0996f-4334-4b1a-a344-4d13e27ac052/"),
-    MSVC_PREFIX + "CRT.Redist.X64.base": ("14.50.35719",
-        "a4ab48822362df6e478eb4ed33bf825a07a6faacd6879c1e3d59929cd38b984b",
-        _VS_DOWNLOADS + "a424e95b-20f6-4af6-844f-9d9a806080a7/"),
-    MSVC_PREFIX + "Tools.HostX64.TargetX64.base": ("14.50.35739",
-        "5151bf213431423046eefdf256f3bd70fe36c5df8d5b4c6bc36fc53b0cadc96c", None),
-    "Microsoft.VisualCpp.DIA.SDK": ("14.51.36257",
-        "a99bd36306e536b80662c064cc76e0e143d20bc58832fa3e82ec79fecf9cefb7", None),
-}
-
 NUGET = "https://api.nuget.org/v3-flatcontainer/{0}/{1}/{0}.{1}.nupkg"
-SDK_PACKAGES = {
-    ("microsoft.windows.sdk.cpp", "10.0.28000.2270"):
-        "0a4887a64d1b17128f9ffd80032f20debabf943f34eea927aac00cc46cb32879",
-    ("microsoft.windows.sdk.cpp.x64", "10.0.28000.2270"):
-        "72076d00b16c3882bf9eab0c80e350f33d8bc65e5f29e2f0e9b66a3f2569ccb1",
-}
-# dbghelp.dll and the rest of the debuggers: the SDK's NuGet packages leave
-# them out, and the debugging tools have their own.
-DEBUGGERS_PACKAGE = ("microsoft.debugging.platform.dbgeng", "20260319.1511.0")
-DEBUGGERS_SHA256 = "875678516f9ceed4a1c8b9b106d165106fcaa38723ad7c584c47b95b231600de"
+
+
+def load_pins(cache):
+    """<dir>/pins.json: what the version is laid out from. Each package of
+    Visual Studio by its version, the SHA-256 its manifest gives it, and the
+    URL it was served from where that is known (url_base: the manifest's URLs
+    are <url_base><SHA-256>/<package>.vsix); one without is looked up by its
+    SHA-256 in vs_channel's current manifest, and when that no longer has it,
+    the run stops and says so. The Windows SDK's and the debuggers' packages
+    come from NuGet. VC/Tools/MSVC/<msvc_dir> is named after the version the
+    CRT's headers carry. A new version is a new directory with its own
+    pins.json: a toolset is a decision, never what a download happens to get."""
+    global SDK_VERSION, VS_YEAR, VS_CHANNEL, MSVC_PREFIX, MSVC_DIR
+    global VS_PACKAGES, SDK_PACKAGES, DEBUGGERS_PACKAGE, DEBUGGERS_SHA256
+    path = cache / "pins.json"
+    if not path.exists():
+        raise SystemExit(f"no {path}: write the version's pins first (see windows/*/pins.json)")
+    pins = json.loads(path.read_text())
+    SDK_VERSION, VS_YEAR, VS_CHANNEL = pins["sdk_version"], pins["vs_year"], pins["vs_channel"]
+    MSVC_PREFIX, MSVC_DIR = pins["msvc_prefix"], pins["msvc_dir"]
+    VS_PACKAGES = {name: (p["version"], p["sha256"], p["url_base"]) for name, p in pins["vs_packages"].items()}
+    # In order: the SDK's package, then its x64 libraries'.
+    SDK_PACKAGES = {(p["name"], p["version"]): p["sha256"] for p in pins["sdk_packages"]}
+    DEBUGGERS_PACKAGE = (pins["debuggers"]["name"], pins["debuggers"]["version"])
+    DEBUGGERS_SHA256 = pins["debuggers"]["sha256"]
+    # windows/<version>: the SDK's version without its last field.
+    if cache.name != SDK_VERSION.rsplit(".", 1)[0]:
+        raise SystemExit(f"{path} pins the Windows SDK {SDK_VERSION}, not one for {cache.name}")
 
 
 def log(message):
@@ -161,8 +135,8 @@ def vs_packages(downloads):
     if gone:
         raise SystemExit(
             "the pinned MSVC packages are not in Visual Studio's channel any more and not in "
-            f"{downloads}: {'; '.join(gone)}. Pinning a newer toolset is a change of "
-            "scripts/windows.py's VS_PACKAGES and MSVC_DIR, tested by a Windows build.")
+            f"{downloads}: {'; '.join(gone)}. A newer toolset is a new version with its own "
+            "pins.json, tested by a Windows build.")
     return paths
 
 
@@ -507,6 +481,7 @@ def main():
     if len(sys.argv) < 3:
         raise SystemExit("usage:\n" + usage)
     command, cache = sys.argv[1], pathlib.Path(sys.argv[2]).resolve()
+    load_pins(cache)
     if command == "verify":
         problems = verify(cache)
         if problems:
