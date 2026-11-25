@@ -1,0 +1,18 @@
+[tasks.check]
+description = "Check that each SDK version is complete"
+usage = 'arg "[target]" var=#true help="<platform>/<version>, e.g. macos/27.0; default: all"'
+run = 'scripts/check.sh ${usage_target:-}'
+
+[tasks."create:windows"]
+description = "Lay out the Windows SDK in windows/<version>/ (needs ZEBKIT_ROOT)"
+usage = 'arg "[version]" help="default: the version zebkit pins"'
+run = 'scripts/create.sh windows ${usage_version:-}'
+
+[tasks."create:macos"]
+description = "Lay out macos/<version>/ from its sdk.tar.xz and version.plist (needs ZEBKIT_ROOT)"
+usage = 'arg "<version>"'
+run = 'scripts/create.sh macos "${usage_version}"'
+
+[tasks."pack:macos"]
+description = "On a Mac: pack the current Xcode's SDK into macos/<version>/"
+run = "scripts/create.sh macos"

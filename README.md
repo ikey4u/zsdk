@@ -10,6 +10,15 @@ The macOS, iOS and Windows SDKs, laid out to cross-compile from Linux. There's o
 
 `windows/10.0.28000/win_toolchain.json` gives absolute paths under `/data/zsdk/windows/10.0.28000`. Clone this repository to `/data/zsdk`, or change those paths.
 
+## Tasks
+
+| Command | Does |
+|---|---|
+| `mise run check [platform/version]` | Checks that each SDK is complete, offline |
+| `mise run create:windows [version]` | Lays out `windows/<version>/` (needs `ZEBKIT_ROOT`) |
+| `mise run pack:macos` | On a Mac: packs the current Xcode SDK into `macos/<version>/` |
+| `mise run create:macos <version>` | Lays out `macos/<version>/` from its `sdk.tar.xz` (needs `ZEBKIT_ROOT`) |
+
 ## Licence
 
 The Apple SDKs belong to Apple. The Visual Studio and Windows SDK files belong to Microsoft. Each is subject to its owner's licence terms. They're provided for development and testing only, not for commercial use.
