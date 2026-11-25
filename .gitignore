@@ -2,3 +2,5 @@
 /windows/*/downloads/
 # What an interrupted layout leaves.
 /*/*/xcode.new/
+# Python bytecode.
+__pycache__/
